@@ -18,7 +18,7 @@ class AuthController extends Controller
         return view('auth.login');
     }
 
-    public function customLogin(Request $request)
+    public function store(Request $request)
     {
         $request->validate([
             'email' => 'required',
@@ -27,8 +27,7 @@ class AuthController extends Controller
 
         $credentials = $request->only('email', 'password');
         if (Auth::attempt($credentials)) {
-            return redirect()->intended('/dashboard')
-                ->withSuccess('Signed in');
+            return redirect()->intended('/');
         }
 
         return redirect("login")->withSuccess('Login details are not valid');

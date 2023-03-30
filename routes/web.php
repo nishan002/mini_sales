@@ -13,14 +13,25 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('admin.dashboard');
-});
-
+// User login routes
 Route::get('/login', [App\Http\Controllers\Auth\AuthController::class, 'index'])->name('login');
-Route::post('/login', [App\Http\Controllers\Auth\AuthController::class, 'customLogin'])->name('login.custom');
+Route::post('/login', [App\Http\Controllers\Auth\AuthController::class, 'store'])->name('login.store');
 
-Route::post('/forget-password', [App\Http\Controllers\Auth\ForgetPasswordController::class, 'submitForgetPasswordForm'])->name('forget.password.post');
+// User registration routes
+Route::get('/register', [App\Http\Controllers\Auth\RegisterController::class, 'index'])->name('register');
+Route::post('/register', [App\Http\Controllers\Auth\RegisterController::class, 'store'])->name('register.store');
+
+// Forget Password routes
 Route::get('reset-password/{token}', [App\Http\Controllers\Auth\ForgetPasswordController::class, 'showResetPasswordForm'])->name('reset.password.get');
+Route::post('/forget-password', [App\Http\Controllers\Auth\ForgetPasswordController::class, 'submitForgetPasswordForm'])->name('forget.password.post');
 Route::post('reset-password', [App\Http\Controllers\Auth\ForgetPasswordController::class, 'submitResetPasswordForm'])->name('reset.password.post');
 
+
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('/', function () {
+        return view('admin.dashboard');
+    });
+    
+    Route::get('/logout', [App\Http\Controllers\Auth\AuthController::class, 'logout'])->name('logout');
+
+});
