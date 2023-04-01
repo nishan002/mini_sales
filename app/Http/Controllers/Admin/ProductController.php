@@ -16,7 +16,7 @@ class ProductController extends Controller
         return view('admin.products.index');
     }
 
-    public function product_list(Request $request){
+    public function product_list(){
         $products = Product::all();
         return DataTables::of($products)
             ->editColumn('description', function($product){
@@ -132,7 +132,6 @@ class ProductController extends Controller
             File::delete($directory);
         }
         $product->delete();
-//        Session::flash('success', 'Product deleted successfully!');
         return response()->json(['status'=>1, 'msg'=>'done', 'id' => $id]);
     }
 }
