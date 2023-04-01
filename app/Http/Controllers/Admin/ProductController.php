@@ -23,7 +23,7 @@ class ProductController extends Controller
                 return '<abbr title="'. $product->description .'">'. substr($product->description,0,10).'...' .'</abbr>';
             })
             ->addColumn('action', function($product){
-                return '<a href="/products/'. $product->id .'/edit"><i class="fa fa-edit"></i></a>';
+                return '<a href="/products/'. $product->id .'/edit" class="btn btn-primary btn-sm mr-3"><i class="fa fa-edit"></i></a><button class="btn btn-danger btn-sm delete-btn" data-id="'. $product->id .'" data-toggle="modal" data-target="#productModal"><i class="fa fa-trash"></i></button>';
             })
             ->rawColumns(['description', 'action'])
             ->make(true);
@@ -75,7 +75,7 @@ class ProductController extends Controller
     }
 
     public function edit($id){
-        $product = Product::findOrFail($id);
+        $product = Product::find($id);
         return view('admin.products.edit', compact('product'));
     }
 
@@ -132,7 +132,7 @@ class ProductController extends Controller
             File::delete($directory);
         }
         $product->delete();
-        Session::flash('success', 'Product deleted successfully!');
-
+//        Session::flash('success', 'Product deleted successfully!');
+        return response()->json(['status'=>1, 'msg'=>'done', 'id' => $id]);
     }
 }
