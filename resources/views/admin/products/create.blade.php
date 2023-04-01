@@ -111,7 +111,7 @@
                             $('span.' + prefix + '_error').text(val[0]);
                         });
                     } else {
-                        $("#product-form input").val('')
+                        $("#product-form input, textarea").val('')
                         $('html, body').animate({ scrollTop: 0 }, 0);
                         $("#success-alert").fadeIn(800);
                         setTimeout(function(){
