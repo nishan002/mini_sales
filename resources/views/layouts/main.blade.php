@@ -69,11 +69,11 @@
             </div>
         </li>
 
-        <!-- Nav Item - Charts -->
+        <!-- Nav Item - Customers -->
         <li class="nav-item">
-            <a class="nav-link" href="charts.html">
+            <a class="nav-link" href="{{ route('customers.index') }}">
                 <i class="fas fa-fw fa-chart-area"></i>
-                <span>Charts</span></a>
+                <span>Customers</span></a>
         </li>
 
         <!-- Nav Item - Tables -->

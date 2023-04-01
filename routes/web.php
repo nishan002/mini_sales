@@ -44,6 +44,24 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('products/{id}', [App\Http\Controllers\Admin\ProductController::class, 'update'])->name('products.update');
     Route::delete('products/{id}/delete', [App\Http\Controllers\Admin\ProductController::class, 'destroy'])->name('products.destroy');
 
+    // Routes for the Customers
+    Route::get('customers', [App\Http\Controllers\Admin\CustomerController::class, 'index'])->name('customers.index');
+    Route::get('customers-list', [App\Http\Controllers\Admin\CustomerController::class, 'customer_list'])->name('customers.list');
+    Route::get('customers/create', [App\Http\Controllers\Admin\CustomerController::class, 'create'])->name('customers.create');
+    Route::post('customers', [App\Http\Controllers\Admin\CustomerController::class, 'store'])->name('customers.store');
+    Route::get('customers/{id}', [App\Http\Controllers\Admin\CustomerController::class, 'show'])->name('customers.show');
+    Route::get('customers/{id}/edit', [App\Http\Controllers\Admin\CustomerController::class, 'edit'])->name('customers.edit');
+    Route::post('customers/{id}', [App\Http\Controllers\Admin\CustomerController::class, 'update'])->name('customers.update');
+    Route::delete('customers/{id}/delete', [App\Http\Controllers\Admin\CustomerController::class, 'destroy'])->name('customers.destroy');
 
+    // Routes for the Customers
+    Route::get('sales', [App\Http\Controllers\Admin\CustomerController::class, 'index'])->name('sales.index');
+    Route::get('sales-list', [App\Http\Controllers\Admin\CustomerController::class, 'sales_list'])->name('sales.list');
+    Route::get('sales/create', [App\Http\Controllers\Admin\CustomerController::class, 'create'])->name('sales.create');
+    Route::post('sales', [App\Http\Controllers\Admin\CustomerController::class, 'store'])->name('sales.store');
+    Route::get('sales/{id}', [App\Http\Controllers\Admin\CustomerController::class, 'show'])->name('sales.show');
+    Route::get('sales/{id}/edit', [App\Http\Controllers\Admin\CustomerController::class, 'edit'])->name('sales.edit');
+    Route::post('sales/{id}', [App\Http\Controllers\Admin\CustomerController::class, 'update'])->name('sales.update');
+    Route::delete('sales/{id}/delete', [App\Http\Controllers\Admin\CustomerController::class, 'destroy'])->name('sales.destroy');
 
 });
