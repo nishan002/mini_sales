@@ -20,6 +20,9 @@
     <!-- Custom styles for this template-->
     <link href="{{ asset('assets/css/sb-admin-2.min.css')}}" rel="stylesheet">
 
+    <!-- Custom styles for this page -->
+    <link href="{{ asset('assets/vendor/datatables/dataTables.bootstrap4.min.css')}}" rel="stylesheet">
+
 </head>
 
 <body id="page-top">
@@ -141,7 +144,11 @@
 
             </nav>
             <!-- End of Topbar -->
-            @yield('content')
+            <!-- Begin Page Content -->
+            <div class="container-fluid">
+                @yield('content')
+            </div>
+            <!-- /.container-fluid -->
         </div>
         <!-- End of Main Content -->
 
@@ -202,6 +209,12 @@
 <!-- Page level custom scripts -->
 <script src="{{ asset('assets/js/demo/chart-area-demo.js')}}"></script>
 <script src="{{ asset('assets/js/demo/chart-pie-demo.js') }}"></script>
+
+<!-- Page level plugins -->
+<script src="{{ asset('assets/vendor/datatables/jquery.dataTables.min.js')}}"></script>
+<script src="{{ asset('assets/vendor/datatables/dataTables.bootstrap4.min.js')}}"></script>
+
+@yield('script')
 
 </body>
 

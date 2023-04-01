@@ -31,7 +31,19 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/', function () {
         return view('admin.dashboard');
     });
-    
+
     Route::get('/logout', [App\Http\Controllers\Auth\AuthController::class, 'logout'])->name('logout');
+
+    // Routes for the Products
+    Route::get('products', [App\Http\Controllers\Admin\ProductController::class, 'index'])->name('products.index');
+    Route::get('products-list', [App\Http\Controllers\Admin\ProductController::class, 'product_list'])->name('products.list');
+    Route::get('products/create', [App\Http\Controllers\Admin\ProductController::class, 'create'])->name('products.create');
+    Route::post('products', [App\Http\Controllers\Admin\ProductController::class, 'store'])->name('products.store');
+    Route::get('products/{id}', [App\Http\Controllers\Admin\ProductController::class, 'show'])->name('products.show');
+    Route::get('products/{id}/edit', [App\Http\Controllers\Admin\ProductController::class, 'edit'])->name('products.edit');
+    Route::post('products/{id}', [App\Http\Controllers\Admin\ProductController::class, 'update'])->name('products.update');
+    Route::delete('products/{id}/delete', [App\Http\Controllers\Admin\ProductController::class, 'destroy'])->name('products.destroy');
+
+
 
 });
