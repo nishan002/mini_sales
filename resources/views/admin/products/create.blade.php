@@ -2,6 +2,10 @@
 
 @section('content')
     <h3>Create Product</h3>
+    <div class="alert alert-success" id="success-alert" style="display:none; text-align:center;">
+        <button type="button" class="btn close" style="width: 20px !important" data-dismiss="alert">x</button>
+        <strong style="text-align:center">Product Created Successfully!</strong>
+    </div>
     <form id="product-form" method="POST" action="{{ route('products.store') }}" enctype="multipart/form-data">
         @csrf
         <div class="row">
@@ -103,15 +107,23 @@
                 },
                 success: function (data) {
                     if (data.status === 0) {
-                        $("#submit").prop("disabled", false);
                         $.each(data.error, function (prefix, val) {
                             $('span.' + prefix + '_error').text(val[0]);
                         });
                     } else {
-                        window.location = "{{ url('/products') }}";
+                        $("#product-form input").val('')
+                        $('html, body').animate({ scrollTop: 0 }, 0);
+                        $("#success-alert").fadeIn(800);
+                        setTimeout(function(){
+                            $("#success-alert").fadeOut();
+                        }, 5000);
+                        $(".close").click(function(){
+                            $("#success-alert").fadeOut(800);
+                        });
                     }
                 },
             }).done(() => {
+                $("#submit").prop("disabled", false);
                 $("#submit-text").css("display", "block");
                 $("#load").css("display", "none");
             })
