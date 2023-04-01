@@ -19,16 +19,6 @@
                         <th>Action</th>
                     </tr>
                     </thead>
-                    <tfoot>
-                    <tr>
-                        <th>Name</th>
-                        <th>Description</th>
-                        <th>Quantity</th>
-                        <th>Purchase Price</th>
-                        <th>Sales Price</th>
-                        <th>Action</th>
-                    </tr>
-                    </tfoot>
                     <tbody>
 
                     </tbody>
