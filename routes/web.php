@@ -55,13 +55,13 @@ Route::group(['middleware' => 'auth'], function () {
     Route::delete('customers/{id}/delete', [App\Http\Controllers\Admin\CustomerController::class, 'destroy'])->name('customers.destroy');
 
     // Routes for the Customers
-    Route::get('sales', [App\Http\Controllers\Admin\CustomerController::class, 'index'])->name('sales.index');
-    Route::get('sales-list', [App\Http\Controllers\Admin\CustomerController::class, 'sales_list'])->name('sales.list');
-    Route::get('sales/create', [App\Http\Controllers\Admin\CustomerController::class, 'create'])->name('sales.create');
-    Route::post('sales', [App\Http\Controllers\Admin\CustomerController::class, 'store'])->name('sales.store');
-    Route::get('sales/{id}', [App\Http\Controllers\Admin\CustomerController::class, 'show'])->name('sales.show');
-    Route::get('sales/{id}/edit', [App\Http\Controllers\Admin\CustomerController::class, 'edit'])->name('sales.edit');
-    Route::post('sales/{id}', [App\Http\Controllers\Admin\CustomerController::class, 'update'])->name('sales.update');
-    Route::delete('sales/{id}/delete', [App\Http\Controllers\Admin\CustomerController::class, 'destroy'])->name('sales.destroy');
+    Route::get('sales', [App\Http\Controllers\Admin\SalesController::class, 'index'])->name('sales.index');
+    Route::get('sales-list', [App\Http\Controllers\Admin\SalesController::class, 'sales_list'])->name('sales.list');
+    Route::get('sales/create', [App\Http\Controllers\Admin\SalesController::class, 'create'])->name('sales.create');
+    Route::post('sales', [App\Http\Controllers\Admin\SalesController::class, 'store'])->name('sales.store');
+    Route::get('sales/{id}', [App\Http\Controllers\Admin\SalesController::class, 'show'])->name('sales.show');
+    Route::get('sales/{id}/edit', [App\Http\Controllers\Admin\SalesController::class, 'edit'])->name('sales.edit');
+    Route::post('sales/{id}', [App\Http\Controllers\Admin\SalesController::class, 'update'])->name('sales.update');
+    Route::delete('sales/{id}/delete', [App\Http\Controllers\Admin\SalesController::class, 'destroy'])->name('sales.destroy');
 
 });
