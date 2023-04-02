@@ -76,6 +76,20 @@
                 <span>Customers</span></a>
         </li>
 
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#sales"
+               aria-expanded="true" aria-controls="collapsePages">
+                <i class="fas fa-fw fa-folder"></i>
+                <span>Sales</span>
+            </a>
+            <div id="sales" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <a class="collapse-item" href="{{ route('sales.index') }}">Sales List</a>
+                    <a class="collapse-item" href="{{ route('sales.create') }}">Create Sales</a>
+                </div>
+            </div>
+        </li>
+
         <!-- Nav Item - Tables -->
         <li class="nav-item">
             <a class="nav-link" href="tables.html">
