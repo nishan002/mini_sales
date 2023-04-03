@@ -25,7 +25,7 @@
             </div>
             <div class="col-md-6">
                 <div class="form-group row">
-                    <button class="btn btn-primary">Create Customer</button>
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#customerModal">Create Customer</button>
                 </div>
             </div>
         </div>
@@ -67,6 +67,65 @@
             </div>
         </div>
     </form>
+
+    <!-- Customer Create Modal-->
+    <div class="modal fade" id="customerModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Create Customer</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="customer-form" method="POST" action="{{ route('customers.store') }}">
+                        @csrf
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">Customer Name</label>
+                                    <div class="col-sm-7">
+                                        <input type="text" name="name" class="form-control mb-2"/>
+                                        <span class="text-danger small error-text name_error" ></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">Phone Number</label>
+                                    <div class="col-sm-7">
+                                        <input type="text" name="phone_number" class="form-control mb-2"/>
+                                        <span class="text-danger small error-text phone_number_error" ></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row content-wrapper">
+                            <div class="col-md-12">
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">Address</label>
+                                    <div class="col-sm-7">
+                                        <input type="text" name="address" class="form-control mb-2"/>
+                                        <span class="text-danger small error-text address_error" ></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12 text-center">
+                                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                                <button id="customer-form-submit" type="submit" class="btn btn-primary btn-rounded btn-fw"><i id="load" style="display: none" class="fa fa-spinner fa-spin"></i> <span id="submit-text">Submit</span></button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @section('script')
@@ -190,5 +249,51 @@
             });
         });
 
+    </script>
+
+    <script>
+        $("#customer-form").on('submit', function(e) {
+            $("#submit-text").css("display", "none");
+            $("#load").css("display", "block");
+            $("#submit").prop("disabled", true);
+            e.preventDefault();
+            $.ajax({
+                url: $(this).attr('action'),
+                method: $(this).attr('method'),
+                data: new FormData(this),
+                processData: false,
+                dataType: 'json',
+                contentType: false,
+                beforeSend: function () {
+                    $(document).find('span.error-text').text('');
+                },
+                success: function (data) {
+                    if (data.status === 0) {
+                        console.log(data.error)
+                        $.each(data.error, function(prefix, val){
+                            error_name = prefix.split('.')[0];
+                            error_index = prefix.split('.')[1];
+                            $('span.'+error_name+'_error').text(val[0])
+
+                        });
+                    } else {
+                        $("#customerModal").modal('hide')
+                        // $("#sales-form input, textarea").val('')
+                        // $('html, body').animate({ scrollTop: 0 }, 0);
+                        $("#success-alert").fadeIn(800);
+                        setTimeout(function(){
+                            $("#success-alert").fadeOut();
+                        }, 5000);
+                        $(".close").click(function(){
+                            $("#success-alert").fadeOut(800);
+                        });
+                    }
+                },
+            }).done(() => {
+                $("#customer-form-submit").prop("disabled", false);
+                $("#submit-text").css("display", "block");
+                $("#load").css("display", "none");
+            })
+        })
     </script>
 @endsection
