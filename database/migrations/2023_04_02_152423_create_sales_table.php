@@ -19,7 +19,8 @@ return new class extends Migration
             $table->double('total_amount', 10, 2);
             $table->timestamps();
 
-            $table->foreign('customer_id')->references('id')->on('customers');
+            $table->foreign('customer_id')->references('id')->on('customers')->onUpdate('cascade')
+                ->onDelete('cascade');;
         });
     }
 

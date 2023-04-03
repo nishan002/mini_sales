@@ -21,8 +21,10 @@ return new class extends Migration
             $table->double('price', 10, 2);
             $table->timestamps();
 
-            $table->foreign('sale_id')->references('id')->on('sales');
-            $table->foreign('product_id')->references('id')->on('products');
+            $table->foreign('sale_id')->references('id')->on('sales')->onUpdate('cascade')
+                ->onDelete('cascade');;
+            $table->foreign('product_id')->references('id')->on('products')->onUpdate('cascade')
+                ->onDelete('cascade');;
         });
     }
 
