@@ -17,12 +17,14 @@ class SalesController extends Controller
         return view('admin.sales.index');
     }
 
-    public function sale_list(){
+    public function sales_list(){
         $sales = Sales::all();
         return DataTables::of($sales)
-            ->editColumn('customer_id')
+            ->addColumn('customer_name', function($sale){
+                return $sale->customer->name;
+            })
             ->addColumn('action', function($sale){
-                return '<a href="/sales/'. $sale->id .'/invoice" class="btn btn-primary btn-sm mr-3"><i class="fa fa-edit"></i></a><button class="btn btn-danger btn-sm delete-btn" data-id="'. $product->id .'" data-toggle="modal" data-target="#productModal"><i class="fa fa-trash"></i></button>';
+                return '<a href="/sales/'. $sale->id .'/invoice" class="btn btn-primary btn-sm mr-3"><i class="fa fa-edit"></i></a><button class="btn btn-danger btn-sm delete-btn" data-id="'. $sale->id .'" data-toggle="modal" data-target="#saleModal"><i class="fa fa-trash"></i></button>';
             })
             ->rawColumns(['action'])
             ->make(true);
@@ -61,8 +63,15 @@ class SalesController extends Controller
                 $total += $product->sales_price * $request->quantity[$i];
             }
 
+            // invoice id generating
+            $date = date('dy');
+            $time = date('hi');
+            $rand = rand(10, 1000);
+
+            $sale->invoice_id = 'INV-' . $date. '-' . $time . '-' . $rand;
             $sale->customer_id = $request->customer_id;
             $sale->total_amount = $total;
+
 
             $sale->save();
 
@@ -79,5 +88,11 @@ class SalesController extends Controller
             }
             return response()->json(['status'=>1, 'msg'=>'done']);
         }
+    }
+
+    public function destroy($id){
+        $sale = Sales::find($id);
+        $sale->delete();
+        return response()->json(['status'=>1, 'msg'=>'done', 'id' => $id]);
     }
 }

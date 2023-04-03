@@ -8,14 +8,12 @@
         </div>
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table table-bordered" id="product-dataTable" width="100%" cellspacing="0">
+                <table class="table table-bordered" id="sale-dataTable" width="100%" cellspacing="0">
                     <thead>
                     <tr>
+                        <th>Invoice ID</th>
                         <th>Customer Name</th>
-                        <th>Description</th>
-                        <th>Quantity</th>
-                        <th>Purchase Price</th>
-                        <th>Sales Price</th>
+                        <th>Total Amount</th>
                         <th>Action</th>
                     </tr>
                     </thead>
@@ -27,8 +25,8 @@
         </div>
     </div>
 
-    <!-- Product Modal-->
-    <div class="modal fade" id="productModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    <!-- Sale Modal-->
+    <div class="modal fade" id="saleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
          aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -41,7 +39,7 @@
                 <div class="modal-body">Are you sure you want to delete this item?</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <form id="product-delete-form" method="POST">
+                    <form id="sale-delete-form" method="POST">
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="btn btn-danger">Delete</button>
@@ -55,16 +53,14 @@
 @section('script')
 
     <script>
-        $("#product-dataTable").DataTable({
+        $("#sale-dataTable").DataTable({
             processing : true,
             serverSide: true,
             ajax : "{{ route('sales.list') }}",
             columns : [
-                {data : 'name', name : 'name'},
-                {data : 'description', name : 'description'},
-                {data : 'quantity', name : 'quantity'},
-                {data : 'purchase_price', name : 'purchase_price'},
-                {data : 'sales_price', name : 'sales_price'},
+                {data : 'invoice_id', name : 'invoice_id'},
+                {data : 'customer_name', name : 'customer_name'},
+                {data : 'total_amount', name : 'total_amount'},
                 {data : 'action', name : 'action'},
             ]
         });
@@ -74,11 +70,11 @@
         // get item id and add to form action
         $("body").on('click','.delete-btn' ,function(){
             let id = $(this).attr('data-id')
-            $('#product-delete-form').attr('action', 'products/'+id+'/delete')
+            $('#sale-delete-form').attr('action', 'sales/'+id+'/delete')
         })
 
         // delete item from modal
-        $("#product-delete-form").on('submit', function(e){
+        $("#sale-delete-form").on('submit', function(e){
             e.preventDefault()
             $.ajax({
                 url:$(this).attr('action'),
@@ -92,7 +88,7 @@
                 },
                 success:function(data){
                     if(data.status === 1){
-                        $("#productModal").modal('hide')
+                        $("#saleModal").modal('hide')
                         $("body .delete-btn[data-id='"+data.id+"']").parent().parent('tr').remove()
                     }
                 },
