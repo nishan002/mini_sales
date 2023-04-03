@@ -20,10 +20,11 @@ class SalesController extends Controller
     public function sale_list(){
         $sales = Sales::all();
         return DataTables::of($sales)
+            ->editColumn('customer_id')
             ->addColumn('action', function($sale){
-                return '<a href="/products/'. $sale->id .'/edit" class="btn btn-primary btn-sm mr-3"><i class="fa fa-edit"></i></a><button class="btn btn-danger btn-sm delete-btn" data-id="'. $product->id .'" data-toggle="modal" data-target="#productModal"><i class="fa fa-trash"></i></button>';
+                return '<a href="/sales/'. $sale->id .'/invoice" class="btn btn-primary btn-sm mr-3"><i class="fa fa-edit"></i></a><button class="btn btn-danger btn-sm delete-btn" data-id="'. $product->id .'" data-toggle="modal" data-target="#productModal"><i class="fa fa-trash"></i></button>';
             })
-            ->rawColumns(['description', 'action'])
+            ->rawColumns(['action'])
             ->make(true);
     }
 
@@ -67,6 +68,8 @@ class SalesController extends Controller
 
             for ($i=0; $i<count($request->product_id); $i++){
                 $product = Product::find($request->product_id[$i]);
+                $product->quantity = $product->quantity - $request->quantity[$i];
+                $product->update();
                 DB::table('product_sale')->insert([
                     'sale_id' => $sale->id,
                     'product_id' => $request->product_id[$i],
