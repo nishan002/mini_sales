@@ -30,7 +30,7 @@ class AuthController extends Controller
             return redirect()->intended('/');
         }
 
-        return redirect("login")->withSuccess('Login details are not valid');
+        return redirect("login")->withErrors('Login details are not valid');
     }
 
     public function logout()
