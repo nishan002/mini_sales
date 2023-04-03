@@ -4,7 +4,10 @@
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
+            <h6 class="m-0 font-weight-bold text-primary">Sales Table</h6>
+        </div>
+        <div class="flash-message text-center">
+            @include('flash_message')
         </div>
         <div class="card-body">
             <div class="table-responsive">
@@ -53,6 +56,11 @@
 @section('script')
 
     <script>
+        // flash message show
+        setTimeout(function(){
+            $("#alert").fadeOut(800);
+        }, 4000);
+
         $("#sale-dataTable").DataTable({
             processing : true,
             serverSide: true,

@@ -8,6 +8,7 @@ use App\Models\Product;
 use App\Models\Sales;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\DataTables;
 
@@ -86,7 +87,8 @@ class SalesController extends Controller
                     'price' => $request->quantity[$i] * $product->sales_price
                 ]);
             }
-            return response()->json(['status'=>1, 'msg'=>'done']);
+            Session::flash('success', 'Sales created successfully!');
+            return response()->json(['status'=>1, 'msg'=>'Sales created successfully!']);
         }
     }
 

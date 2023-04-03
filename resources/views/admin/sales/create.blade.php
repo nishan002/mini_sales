@@ -4,7 +4,7 @@
     <h3>Create Sales</h3>
     <div class="alert alert-success" id="success-alert" style="display:none; text-align:center;">
         <button type="button" class="btn close" style="width: 20px !important" data-dismiss="alert">x</button>
-        <strong style="text-align:center">Sales Created Successfully!</strong>
+        <strong id="success-message" style="text-align:center"></strong>
     </div>
     <form id="sales-form" method="POST" action="{{ route('sales.store') }}">
         @csrf
@@ -37,7 +37,7 @@
                         <label class="col-sm-3 col-form-label">Product</label>
                         <div class="col-sm-7">
                             <select class="form-control" name="product_id[]" id="product-select">
-                                <option value="">Select Customer</option>
+                                <option value="">Select Product</option>
                                 @foreach($products as $product)
                                     <option value="{{ $product->id }}">{{ $product->name }}</option>
                                 @endforeach
@@ -162,15 +162,7 @@
                             }
                         });
                     } else {
-                        $("#sales-form input, textarea").val('')
-                        $('html, body').animate({ scrollTop: 0 }, 0);
-                        $("#success-alert").fadeIn(800);
-                        setTimeout(function(){
-                            $("#success-alert").fadeOut();
-                        }, 5000);
-                        $(".close").click(function(){
-                            $("#success-alert").fadeOut(800);
-                        });
+                        window.location.href = "{{ route('sales.index') }}"
                     }
                 },
             }).done(() => {
@@ -212,7 +204,7 @@
                                                             <label class="col-sm-3 col-form-label">Product</label>
                                                             <div class="col-sm-7">
                                                                 <select class="form-control" name="product_id[]" id="product-select">
-                                                                    <option value="">Select Customer</option>
+                                                                    <option value="">Select Product</option>
                                                                     @foreach($products as $product)
                                                     <option value="{{ $product->id }}">{{ $product->name }}</option>
                                                                     @endforeach
@@ -274,12 +266,10 @@
                             error_name = prefix.split('.')[0];
                             error_index = prefix.split('.')[1];
                             $('span.'+error_name+'_error').text(val[0])
-
                         });
                     } else {
                         $("#customerModal").modal('hide')
-                        // $("#sales-form input, textarea").val('')
-                        // $('html, body').animate({ scrollTop: 0 }, 0);
+                        $("#success-message").text(data.msg)
                         $("#success-alert").fadeIn(800);
                         setTimeout(function(){
                             $("#success-alert").fadeOut();
