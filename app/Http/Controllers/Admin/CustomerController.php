@@ -50,8 +50,7 @@ class CustomerController extends Controller
 
             $customer->save();
 
-            Session::flash('success', 'Customer created successfully!');
-            return response()->json(['status'=>1, 'msg'=>'done']);
+            return response()->json(['status'=>1, 'msg'=>'Customer created successfully!']);
 
         }
 
@@ -65,7 +64,7 @@ class CustomerController extends Controller
     public function update(Request $request, $id){
 
         $validator = Validator::make($request->all(),[
-            'name' => 'required|unique:customers,name|max:100',
+            'name' => 'required|max:100|unique:customers,name,'.$id,
             'phone_number' => 'required|max:500',
             'address' => 'required|max:200',
         ]);
