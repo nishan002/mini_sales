@@ -247,7 +247,7 @@
         $("#customer-form").on('submit', function(e) {
             $("#submit-text").css("display", "none");
             $("#load").css("display", "block");
-            $("#submit").prop("disabled", true);
+            $("#customer-form-submit").prop("disabled", true);
             e.preventDefault();
             $.ajax({
                 url: $(this).attr('action'),

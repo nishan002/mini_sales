@@ -80,8 +80,8 @@ class SalesController extends Controller
                 $product = Product::find($request->product_id[$i]);
                 $product->quantity = $product->quantity - $request->quantity[$i];
                 $product->update();
-                DB::table('product_sale')->insert([
-                    'sale_id' => $sale->id,
+                DB::table('product_sales')->insert([
+                    'sales_id' => $sale->id,
                     'product_id' => $request->product_id[$i],
                     'quantity' => $request->quantity[$i],
                     'price' => $request->quantity[$i] * $product->sales_price
