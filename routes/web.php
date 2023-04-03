@@ -54,7 +54,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('customers/{id}', [App\Http\Controllers\Admin\CustomerController::class, 'update'])->name('customers.update');
     Route::delete('customers/{id}/delete', [App\Http\Controllers\Admin\CustomerController::class, 'destroy'])->name('customers.destroy');
 
-    // Routes for the Customers
+    // Routes for the Sales
     Route::get('sales', [App\Http\Controllers\Admin\SalesController::class, 'index'])->name('sales.index');
     Route::get('sales-list', [App\Http\Controllers\Admin\SalesController::class, 'sales_list'])->name('sales.list');
     Route::get('sales/create', [App\Http\Controllers\Admin\SalesController::class, 'create'])->name('sales.create');
@@ -64,4 +64,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('sales/{id}', [App\Http\Controllers\Admin\SalesController::class, 'update'])->name('sales.update');
     Route::delete('sales/{id}/delete', [App\Http\Controllers\Admin\SalesController::class, 'destroy'])->name('sales.destroy');
 
+    // Routes for the Stock Report
+    Route::get('stock-report', [App\Http\Controllers\Admin\StockReportController::class, 'index'])->name('stock_report.index');
+    Route::get('stock-report-list', [App\Http\Controllers\Admin\StockReportController::class, 'stock_report_list'])->name('stock_report.list');
 });
