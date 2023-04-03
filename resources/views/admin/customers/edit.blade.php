@@ -80,48 +80,5 @@
         })
     </script>
 
-    {{--  preview image--}}
-    <script>
-        $(document).ready(function (e) {
-            $('#input-image').change(function(){
-                $('#preview-image-before-upload').css("display", "block")
-                let reader = new FileReader();
-
-                reader.onload = (e) => {
-                    $('#preview-image-before-upload').attr('src', e.target.result);
-                }
-                reader.readAsDataURL(this.files[0]);
-            });
-
-        });
-    </script>
-
-    <!-- Description letter counter -->
-    <script>
-
-        const description = document.getElementById('description');
-        const letter_counter = document.getElementById('letter_counter');
-        const counter = document.getElementById('counter');
-        const text_exceeded = document.getElementById('text_exceeded');
-        let letter_value = description.value.length;
-        letter_counter.innerHTML = letter_value;
-
-        description.addEventListener('input', () => {
-            letter_value = description.value.length;
-
-            if(letter_value > 500){
-                counter.classList.remove('text-primary');
-                counter.classList.add('text-danger');
-                text_exceeded.innerText = "Text limit exceeded!"
-            }
-            else{
-                counter.classList.add('text-primary');
-                counter.classList.remove('text-danger');
-                text_exceeded.innerText = ""
-            }
-            letter_counter.innerHTML = letter_value;
-
-        });
-    </script>
 @endsection
 

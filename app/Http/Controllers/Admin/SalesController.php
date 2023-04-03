@@ -9,11 +9,22 @@ use App\Models\Sales;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use Yajra\DataTables\DataTables;
 
 class SalesController extends Controller
 {
     public function index(){
         return view('admin.sales.index');
+    }
+
+    public function sale_list(){
+        $sales = Sales::all();
+        return DataTables::of($sales)
+            ->addColumn('action', function($sale){
+                return '<a href="/products/'. $sale->id .'/edit" class="btn btn-primary btn-sm mr-3"><i class="fa fa-edit"></i></a><button class="btn btn-danger btn-sm delete-btn" data-id="'. $product->id .'" data-toggle="modal" data-target="#productModal"><i class="fa fa-trash"></i></button>';
+            })
+            ->rawColumns(['description', 'action'])
+            ->make(true);
     }
 
     public function create(){
@@ -63,7 +74,7 @@ class SalesController extends Controller
                     'price' => $request->quantity[$i] * $product->sales_price
                 ]);
             }
-
+            return response()->json(['status'=>1, 'msg'=>'done']);
         }
     }
 }
