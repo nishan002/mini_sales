@@ -20,9 +20,11 @@
     <!-- Custom styles for this template-->
     <link href="{{ asset('assets/css/sb-admin-2.min.css')}}" rel="stylesheet">
 
-    <!-- Custom styles for this page -->
-    <link href="{{ asset('assets/vendor/datatables/dataTables.bootstrap4.min.css')}}" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
+    <!-- Custom styles for this page -->
+{{--    <link href="{{ asset('assets/vendor/datatables/dataTables.bootstrap4.min.css')}}" rel="stylesheet">--}}
+    <link href="https://cdn.datatables.net/v/bs4/dt-1.13.4/b-2.3.6/b-html5-2.3.6/datatables.min.css" rel="stylesheet"/>
 </head>
 
 <body id="page-top">
@@ -34,7 +36,7 @@
     <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
         <!-- Sidebar - Brand -->
-        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ url('/') }}">
             <div class="sidebar-brand-icon rotate-n-15">
                 <i class="fas fa-laugh-wink"></i>
             </div>
@@ -58,7 +60,7 @@
         <li class="nav-item">
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
                aria-expanded="true" aria-controls="collapsePages">
-                <i class="fas fa-fw fa-folder"></i>
+                <i class="fa fa-shopping-cart"></i>
                 <span>Products</span>
             </a>
             <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
@@ -72,14 +74,14 @@
         <!-- Nav Item - Customers -->
         <li class="nav-item">
             <a class="nav-link" href="{{ route('customers.index') }}">
-                <i class="fas fa-fw fa-chart-area"></i>
+                <i class="fas fa-fw fa-user"></i>
                 <span>Customers</span></a>
         </li>
 
         <li class="nav-item">
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#sales"
                aria-expanded="true" aria-controls="collapsePages">
-                <i class="fas fa-fw fa-folder"></i>
+                <i class="fas fa-fw fa-file"></i>
                 <span>Sales</span>
             </a>
             <div id="sales" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
@@ -90,11 +92,11 @@
             </div>
         </li>
 
-        <!-- Nav Item - Tables -->
+        <!-- Nav Item - Stock Report -->
         <li class="nav-item">
-            <a class="nav-link" href="tables.html">
-                <i class="fas fa-fw fa-table"></i>
-                <span>Tables</span></a>
+            <a class="nav-link" href="{{ route('stock_report.index') }}">
+                <i class="fas fa-fw fa-chart-area"></i>
+                <span>Stock Report</span></a>
         </li>
 
     </ul>
@@ -122,7 +124,7 @@
                     <li class="nav-item dropdown no-arrow">
                         <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <span class="mr-2 d-none d-lg-inline text-gray-600 small">Douglas McGee</span>
+                            <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}</span>
                             <img class="img-profile rounded-circle" src="{{ asset('assets/img/undraw_profile.svg')}}">
                         </a>
                         <!-- Dropdown - User Information -->
@@ -219,9 +221,11 @@
 <script src="{{ asset('assets/js/demo/chart-pie-demo.js') }}"></script>
 
 <!-- Page level plugins -->
-<script src="{{ asset('assets/vendor/datatables/jquery.dataTables.min.js')}}"></script>
-<script src="{{ asset('assets/vendor/datatables/dataTables.bootstrap4.min.js')}}"></script>
-
+{{--<script src="{{ asset('assets/vendor/datatables/jquery.dataTables.min.js')}}"></script>--}}
+{{--<script src="{{ asset('assets/vendor/datatables/dataTables.bootstrap4.min.js')}}"></script>--}}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/v/bs4/dt-1.13.4/b-2.3.6/b-html5-2.3.6/datatables.min.js"></script>
 @yield('script')
 
 </body>
