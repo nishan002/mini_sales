@@ -51,7 +51,7 @@ class CustomerController extends Controller
 
             $customer->save();
 
-            return response()->json(['status'=>1, 'msg'=>'Customer created successfully!']);
+            return response()->json(['status'=>1, 'msg'=>'Customer created successfully!', 'customer' => $customer]);
 
         }
 

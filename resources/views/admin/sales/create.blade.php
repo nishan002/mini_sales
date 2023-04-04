@@ -268,6 +268,7 @@
                             $('span.'+error_name+'_error').text(val[0])
                         });
                     } else {
+                        $("#customer-select").append(`<option value="${data.customer.id}">${data.customer.name}</option>`)
                         $("#customerModal").modal('hide')
                         $("#success-message").text(data.msg)
                         $("#success-alert").fadeIn(800);
