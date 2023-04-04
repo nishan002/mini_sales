@@ -1,5 +1,8 @@
 <?php
 
+use App\Models\Customer;
+use App\Models\Product;
+use App\Models\Sales;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -24,7 +27,10 @@ Route::post('/register', [App\Http\Controllers\Auth\RegisterController::class, '
 
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/', function () {
-        return view('admin.dashboard');
+        $product = Product::all();
+        $customer = Customer::all();
+        $sales = Sales::all();
+        return view('admin.dashboard', compact('product', 'customer', 'sales'));
     });
 
     Route::get('/logout', [App\Http\Controllers\Auth\AuthController::class, 'logout'])->name('logout');
