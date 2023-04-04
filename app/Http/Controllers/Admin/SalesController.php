@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Models\Customer;
 use App\Models\Product;
 use App\Models\Sales;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
@@ -25,7 +28,7 @@ class SalesController extends Controller
                 return $sale->customer->name;
             })
             ->addColumn('action', function($sale){
-                return '<a href="/sales/'. $sale->id .'/invoice" class="btn btn-primary btn-sm mr-3"><i class="fa fa-edit"></i></a><button class="btn btn-danger btn-sm delete-btn" data-id="'. $sale->id .'" data-toggle="modal" data-target="#saleModal"><i class="fa fa-trash"></i></button>';
+                return '<a href="/sales/'. $sale->id .'/invoice" class="btn btn-primary btn-sm mr-3"><i class="fa fa-file"></i></a><button class="btn btn-danger btn-sm delete-btn" data-id="'. $sale->id .'" data-toggle="modal" data-target="#saleModal"><i class="fa fa-trash"></i></button>';
             })
             ->rawColumns(['action'])
             ->make(true);
@@ -90,6 +93,20 @@ class SalesController extends Controller
             Session::flash('success', 'Sales created successfully!');
             return response()->json(['status'=>1, 'msg'=>'Sales created successfully!']);
         }
+    }
+
+    public function sales_invoice($id){
+        try{
+            $sale = Sales::findOrFail($id);
+        }
+        catch (ModelNotFoundException $exception) {
+            return view('404_page');
+        }
+
+        $date = Carbon::createFromFormat('Y-m-d H:i:s', $sale->created_at)->format('d F, Y');
+
+        $pdf = Pdf::loadView('admin.pdf.sales_invoice',compact('sale', 'date'));
+        return $pdf->stream($sale->invoice_id . '.pdf');
     }
 
     public function destroy($id){
