@@ -25,7 +25,7 @@ class StockReportController extends Controller
                 return $total_quantity_sold;
             })
             ->addColumn('total_current_stock_sales_price', function($product){
-                return $product->quantity * $product->sales_price;
+                return number_format($product->quantity * $product->sales_price, 2);
             })
             ->make(true);
     }
