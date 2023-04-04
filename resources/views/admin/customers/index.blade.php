@@ -36,7 +36,7 @@
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
-                <div class="modal-body">Are you sure you want to delete this item?</div>
+                <div class="modal-body">Are you sure? <p>All sales under this customer will delete</p></div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
                     <form id="customer-delete-form" method="POST">
