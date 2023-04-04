@@ -4,7 +4,16 @@
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Stock Report Table</h6>
+            <div class="row">
+                <div class="col-md-9">
+                    <h6 class="m-0 font-weight-bold text-primary">Stock Report Table</h6>
+                </div>
+                <div class="col-md-3">
+                    <a class="btn btn-success" href="{{ route('stock_report.pdf') }}">Download Report</a>
+                </div>
+            </div>
+
+
         </div>
         <div class="flash-message text-center">
             @include('flash_message')
