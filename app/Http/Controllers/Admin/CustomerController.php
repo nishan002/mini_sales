@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Customer;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Session;
@@ -57,7 +58,12 @@ class CustomerController extends Controller
     }
 
     public function edit($id){
-        $customer = Customer::find($id);
+        try {
+            $customer = Customer::findOrFail($id);
+        }
+        catch (ModelNotFoundException $exception) {
+            return view('404_page');
+        }
         return view('admin.customers.edit', compact('customer'));
     }
 

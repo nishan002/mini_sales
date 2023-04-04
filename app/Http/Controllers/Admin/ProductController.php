@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Product;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Session;
@@ -75,7 +76,12 @@ class ProductController extends Controller
     }
 
     public function edit($id){
-        $product = Product::find($id);
+        try{
+            $product = Product::findOrFail($id);
+        }
+        catch (ModelNotFoundException $exception) {
+            return view('404_page');
+        }
         return view('admin.products.edit', compact('product'));
     }
 

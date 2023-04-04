@@ -21,11 +21,6 @@ Route::post('/login', [App\Http\Controllers\Auth\AuthController::class, 'store']
 Route::get('/register', [App\Http\Controllers\Auth\RegisterController::class, 'index'])->name('register');
 Route::post('/register', [App\Http\Controllers\Auth\RegisterController::class, 'store'])->name('register.store');
 
-// Forget Password routes
-Route::get('reset-password/{token}', [App\Http\Controllers\Auth\ForgetPasswordController::class, 'showResetPasswordForm'])->name('reset.password.get');
-Route::post('/forget-password', [App\Http\Controllers\Auth\ForgetPasswordController::class, 'submitForgetPasswordForm'])->name('forget.password.post');
-Route::post('reset-password', [App\Http\Controllers\Auth\ForgetPasswordController::class, 'submitResetPasswordForm'])->name('reset.password.post');
-
 
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/', function () {
@@ -56,12 +51,11 @@ Route::group(['middleware' => 'auth'], function () {
 
     // Routes for the Sales
     Route::get('sales', [App\Http\Controllers\Admin\SalesController::class, 'index'])->name('sales.index');
+    Route::get('sales/invoice/{id}', [App\Http\Controllers\Admin\SalesController::class, 'sales_invoice'])->name('sales.invoice');
     Route::get('sales-list', [App\Http\Controllers\Admin\SalesController::class, 'sales_list'])->name('sales.list');
     Route::get('sales/create', [App\Http\Controllers\Admin\SalesController::class, 'create'])->name('sales.create');
     Route::post('sales', [App\Http\Controllers\Admin\SalesController::class, 'store'])->name('sales.store');
-    Route::get('sales/{id}', [App\Http\Controllers\Admin\SalesController::class, 'show'])->name('sales.show');
-    Route::get('sales/{id}/edit', [App\Http\Controllers\Admin\SalesController::class, 'edit'])->name('sales.edit');
-    Route::post('sales/{id}', [App\Http\Controllers\Admin\SalesController::class, 'update'])->name('sales.update');
+    Route::get('sales/{id}/invoice', [App\Http\Controllers\Admin\SalesController::class, 'sales_invoice'])->name('sales.invoice');
     Route::delete('sales/{id}/delete', [App\Http\Controllers\Admin\SalesController::class, 'destroy'])->name('sales.destroy');
 
     // Routes for the Stock Report
