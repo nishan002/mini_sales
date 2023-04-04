@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Product;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\DataTables;
@@ -18,15 +19,17 @@ class StockReportController extends Controller
         $product_stock_report = Product::with('sales')->get();
         return DataTables::of($product_stock_report)
             ->addColumn('quantity_sold', function($product){
-                $total_quantity_sold = 0;
-                foreach ($product->sales as $sold_quantity) {
-                    $total_quantity_sold += $sold_quantity->pivot->quantity;
-                }
-                return $total_quantity_sold;
+                return $product->sales->sum('pivot.quantity');
             })
             ->addColumn('total_current_stock_sales_price', function($product){
                 return number_format($product->quantity * $product->sales_price, 2);
             })
             ->make(true);
+    }
+
+    public function stock_report_pdf(){
+        $stock_reports = Product::with('sales')->orderBy('name', 'asc')->get();
+        $pdf = Pdf::loadView('admin.pdf.stock_report',compact('stock_reports'));
+        return $pdf->download( 'stock-report.pdf');
     }
 }

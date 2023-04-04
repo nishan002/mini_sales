@@ -61,4 +61,5 @@ Route::group(['middleware' => 'auth'], function () {
     // Routes for the Stock Report
     Route::get('stock-report', [App\Http\Controllers\Admin\StockReportController::class, 'index'])->name('stock_report.index');
     Route::get('stock-report-list', [App\Http\Controllers\Admin\StockReportController::class, 'stock_report_list'])->name('stock_report.list');
+    Route::get('stock-report-pdf', [App\Http\Controllers\Admin\StockReportController::class, 'stock_report_pdf'])->name('stock_report.pdf');
 });
