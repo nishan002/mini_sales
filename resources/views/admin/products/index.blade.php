@@ -11,6 +11,7 @@
                 <table class="table table-bordered" id="product-dataTable" width="100%" cellspacing="0">
                     <thead>
                     <tr>
+                        <th>Image</th>
                         <th>Name</th>
                         <th>Description</th>
                         <th>Quantity</th>
@@ -60,6 +61,7 @@
             serverSide: true,
             ajax : "{{ route('products.list') }}",
             columns : [
+                {data : 'image', name : 'name'},
                 {data : 'name', name : 'name'},
                 {data : 'description', name : 'description'},
                 {data : 'quantity', name : 'quantity'},

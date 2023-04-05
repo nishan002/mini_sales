@@ -26,7 +26,15 @@ class ProductController extends Controller
             ->addColumn('action', function($product){
                 return '<a href="/products/'. $product->id .'/edit" class="btn btn-primary btn-sm mr-3"><i class="fa fa-edit"></i></a><button class="btn btn-danger btn-sm delete-btn" data-id="'. $product->id .'" data-toggle="modal" data-target="#productModal"><i class="fa fa-trash"></i></button>';
             })
-            ->rawColumns(['description', 'action'])
+            ->editColumn('image', function($product){
+                if(!is_null($product->image)){
+                    return ' <img style="height:50px; width:50px; border-radius: 50%" src="/storage/uploads/images/products/' . $product->image . '" alt="">';
+                }
+                else {
+                    return '';
+                }
+            })
+            ->rawColumns(['description', 'action', 'image'])
             ->make(true);
     }
 
@@ -88,7 +96,7 @@ class ProductController extends Controller
     public function update(Request $request, $id){
 
         $validator = Validator::make($request->all(),[
-            'name' => 'required|unique:products,name|max:50|min:1',
+            'name' => 'required|max:50|unique:products,name,'.$id,
             'description' => 'required|max:500|min:1',
             'quantity' => 'required|integer',
             'purchase_price' => 'required|numeric|max:10000000|regex:/^\d+(\.\d{1,2})?$/',
