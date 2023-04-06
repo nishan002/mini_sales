@@ -57,6 +57,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     // Routes for the Sales
     Route::get('sales', [App\Http\Controllers\Admin\SalesController::class, 'index'])->name('sales.index');
+    Route::get('sales/product-stock/{id}', [App\Http\Controllers\Admin\SalesController::class, 'product_stock_check'])->name('sales.product_stock_check');
     Route::get('sales/invoice/{id}', [App\Http\Controllers\Admin\SalesController::class, 'sales_invoice'])->name('sales.invoice');
     Route::get('sales-list', [App\Http\Controllers\Admin\SalesController::class, 'sales_list'])->name('sales.list');
     Route::get('sales/create', [App\Http\Controllers\Admin\SalesController::class, 'create'])->name('sales.create');

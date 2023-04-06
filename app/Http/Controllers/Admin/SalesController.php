@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Customer;
 use App\Models\Product;
 use App\Models\Sales;
+use App\Rules\ProductStock;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -45,7 +46,7 @@ class SalesController extends Controller
         $validator = Validator::make($request->all(),[
             'customer_id' => 'required',
             'product_id.*' => 'required|distinct',
-            'quantity.*' => 'required|numeric|max:10000000',
+            'quantity.*' => 'required|numeric|max:10000000|lt:stock.*',
         ],
         [
             'customer_id' => 'Customer field is required',
@@ -53,7 +54,8 @@ class SalesController extends Controller
             'product_id.*.distinct' => 'Product field has a duplicate value',
             'quantity.*.required' => 'Quantity is required',
             'quantity.*.numeric' => 'Quantity must be a number',
-            'quantity.*.max' => 'Quantity may not be greater than 10000000'
+            'quantity.*.max' => 'Quantity may not be greater than 10000000',
+            'quantity.*.lt' => 'Quantity is out of stock',
         ]);
 
         if(!$validator->passes()) {
@@ -113,5 +115,11 @@ class SalesController extends Controller
         $sale = Sales::find($id);
         $sale->delete();
         return response()->json(['status'=>1, 'msg'=>'done', 'id' => $id]);
+    }
+
+    public function product_stock_check($id){
+        $product = Product::find($id);
+
+        return response()->json(['status'=>1, 'id' => $product->id ,'stock' => $product->quantity]);
     }
 }

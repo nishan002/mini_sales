@@ -33,10 +33,10 @@
         <div class="product-field-set-wrapper">
             <div class="row content-wrapper">
                 <div class="col-md-5">
-                    <div class="form-group row">
+                    <div class="product-input form-group row">
                         <label class="col-sm-3 col-form-label">Product</label>
                         <div class="col-sm-7">
-                            <select class="form-control" name="product_id[]" id="product-select">
+                            <select class="form-control product-select" name="product_id[]" id="product-select">
                                 <option value="">Select Product</option>
                                 @foreach($products as $product)
                                     <option value="{{ $product->id }}">{{ $product->name }}</option>
@@ -55,6 +55,8 @@
                         </div>
                     </div>
                 </div>
+                <input type="hidden" name="stock[]" value="" class="form-control stock"/>
+
                 <div class="form-group col-md-2">
                     <a href="javascript:void(0);" class="add_button btn btn-info btn-sm">Add More</a>
                 </div>
@@ -203,7 +205,7 @@
                                                         <div class="form-group row">
                                                             <label class="col-sm-3 col-form-label">Product</label>
                                                             <div class="col-sm-7">
-                                                                <select class="form-control" name="product_id[]" id="product-select">
+                                                                <select class="form-control product-select" name="product_id[]" id="product-select">
                                                                     <option value="">Select Product</option>
                                                                     @foreach($products as $product)
                                                     <option value="{{ $product->id }}">{{ $product->name }}</option>
@@ -221,6 +223,9 @@
                                                     <span class="text-danger small error-text quantity_error" ></span>
                                                 </div>
                                             </div>
+                                            <input type="hidden" name="stock[]" value="" class="form-control stock"/>
+
+
                                         </div>
                                         <div class="form-group col-md-2">
                                             <a href="javascript:void(0);" class="remove_button btn btn-danger btn-sm">Remove</a>
@@ -265,7 +270,13 @@
                         $.each(data.error, function(prefix, val){
                             error_name = prefix.split('.')[0];
                             error_index = prefix.split('.')[1];
-                            $('span.'+error_name+'_error').text(val[0])
+                            console.log(error_name)
+                            if(error_name === 'product' || error_name === 'quantity'){
+                                $($('.content-wrapper')[error_index]).find('span.'+error_name+'_error').text(val[0]);
+                            }
+                            else{
+                                $('span.'+error_name+'_error').text(val[0])
+                            }
                         });
                     } else {
                         $("#customer-select").append(`<option value="${data.customer.id}">${data.customer.name}</option>`)
@@ -284,6 +295,30 @@
                 $("#customer-form-submit").prop("disabled", false);
                 $("#submit-text").css("display", "block");
                 $("#load").css("display", "none");
+            })
+        })
+    </script>
+
+    <script>
+        $('body').on('change','.product-select', function(){
+            let id = $(this).find('option:selected').val();
+            $(this).attr("data-id", id)
+            $.ajax({
+                url: "{{ url('sales/product-stock') }}/"+id,
+                method: "GET",
+                processData: false,
+                dataType: 'json',
+                contentType: false,
+                beforeSend: function () {
+                    $(document).find('span.error-text').text('');
+                },
+                success: function (data) {
+                    if (data.status === 1) {
+                        console.log(data.id)
+                        console.log( $(`product-select[data-id=${data.id}]`).val())
+                        $(`.product-select[data-id=${data.id}]`).closest('.content-wrapper').find('.stock').val(data.stock)
+                    }
+                },
             })
         })
     </script>
